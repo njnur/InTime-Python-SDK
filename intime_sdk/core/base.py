@@ -2,6 +2,8 @@ import requests
 
 from typing import Optional, Dict
 
+from intime_sdk.core import constants
+
 
 class APIConnector:
     """
@@ -50,7 +52,11 @@ class APIConnector:
         :return: API response in dictionary format
         """
         api_response = requests.get(
-            url=api_url,
+            url="{base}/{version}/{api_uri}".format(
+                base=constants.INTIME_URL,
+                version=constants.VERSION,
+                api_uri=api_url
+            ),
             headers=self.__get_header(),
             params=params
         )
@@ -78,7 +84,11 @@ class APIConnector:
         header = self.__get_header()
 
         api_response = requests.post(
-            url=api_url,
+            url="{base}/{version}/{api_uri}".format(
+                base=constants.INTIME_URL,
+                version=constants.VERSION,
+                api_uri=api_url
+            ),
             headers=header,
             data=data
         )
