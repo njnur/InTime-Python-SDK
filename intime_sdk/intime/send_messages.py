@@ -10,7 +10,7 @@ class Messages(APIConnector):
     Class for manipulating SMS functionalities including creating & sending SMS, removing a scheduled sms etc.
     """
     def send_sms(self, sender_title: str, message_body: str, recipients: List, groups: str, group_id: str,
-                 is_flash_msg: bool = False, is_multi_sms: bool = False, send_date: Optional[datetime] = None,
+                 is_flash_msg: bool = False, is_multi_sms: bool = False, send_date: Optional[str] = None,
                  status_url: Optional[str] = None, check_block_list: Optional[bool] = False,
                  encrypt_msg: Optional[bool] = False, trans_id: Optional[str] = None,
                  ):
@@ -32,8 +32,8 @@ class Messages(APIConnector):
          message (maximum 160 characters) and otherwise it will send a Normal message.
         :param is_multi_sms: (Boolean | Default: False) If this parameter is set to True, method will send send up to
          six SMS or 804 characters and otherwise it will send a Normal message.
-        :param send_date: (Optional; Boolean | Default: None) Date/time for scheduled sending, If the message is to be
-         sent directly, ignore this parameter.
+        :param send_date: (Optional; String | Default: None) Date/time for scheduled sending, If the message is to be
+         sent directly/right now, ignore this parameter. (Format: 2012-01-13T14:41:00)
         :param status_url: (Optional; String | Default: None) URL for the server to send message status callbacks.
         :param check_block_list: (Boolean | Default: False) If this parameter is set to True, method will check
          the user's block list for group mailings.
@@ -46,6 +46,10 @@ class Messages(APIConnector):
 
         :return: API response in dictionary format
         """
+        if send_date:
+
+
+
         xml_data = constants.SEND_SMS_XML.format()
         return self._post(api_url=constants.SEND_SMS_URI,
                           data=xml_data)
