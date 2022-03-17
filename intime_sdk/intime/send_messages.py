@@ -1,5 +1,4 @@
 from typing import Optional, List
-from datetime import datetime
 
 from intime_sdk.core.base import APIConnector
 from intime_sdk.intime import constants
@@ -9,10 +8,10 @@ class Messages(APIConnector):
     """
     Class for manipulating SMS functionalities including creating & sending SMS, removing a scheduled sms etc.
     """
-    def send_sms(self, sender_title: str, message_body: str, recipients: List, groups: str, group_id: str,
+    def send_sms(self, sender_title: str, message_body: str, recipients: List, group_id: str,
                  is_flash_msg: bool = False, is_multi_sms: bool = False, send_date: Optional[str] = None,
                  status_url: Optional[str] = None, check_block_list: Optional[bool] = False,
-                 encrypt_msg: Optional[bool] = False, trans_id: Optional[str] = None,
+                 encrypt_msg: Optional[bool] = False, trans_id: Optional[List] = None,
                  ):
         """
         Method for crating and sending sms.
@@ -25,8 +24,6 @@ class Messages(APIConnector):
          804 characters (6 SMS with 134 characters each).
         :param recipients: (List) Phone number of the recipients to receive the message. At least one recipient or group
          must be addressed.
-        :param groups: (String) Group recipients to receive the message. At least one recipient or group must be
-         addressed.
         :param group_id: (String) The groups Identification number.
         :param is_flash_msg: (Boolean | Default: False) If this parameter is set to True, method will send a Flash
          message (maximum 160 characters) and otherwise it will send a Normal message.
@@ -44,12 +41,56 @@ class Messages(APIConnector):
          This is mandatory if status_url is used!
 
 
-        :return: API response in dictionary format
+        :return: API response in dictionary format with a status param
+         Format::: {
+                "status": True/False,
+                "data": "Sample Response/3545354535"
+            }
         """
-        if send_date:
+        recipients_list = """"""
+        if status_url:
+            if trans_id:
+                if len(trans_id) == len(recipients):
+                    for inc in range(0, len(recipients)):
+                        recipients_list += constants.RECIPIENT_XML.format(
+                            recipient=recipients[inc],
+                            trans_id=trans_id[inc]
+                        )
+                else:
+                    raise ValueError("Each recipients should have a trans_id for Status CallBack")
+            else:
+                raise ValueError("trans_id is needed for Status CallBack")
+        else:
+            for recipient in recipients:
+                recipients_list += constants.RECIPIENT_XML.format(
+                    recipient=recipient,
+                    trans_id=''
+                )
 
+        xml_data = constants.SEND_SMS_XML.format(
+            is_flash_msg="1" if is_flash_msg else "0",
+            is_multi_sms="1" if is_multi_sms else "0",
+            send_date=constants.SEND_DATE_XML.format(send_date=send_date) if send_date else '',
+            sender_title=sender_title,
+            message_body=message_body,
+            status_url=constants.STATUS_URL_XML.format(status_url=status_url) if status_url else '',
+            check_block_list="1" if check_block_list else "0",
+            encrypt_msg="1" if encrypt_msg else "0",
+            recipients=recipients_list,
+            group_id=group_id
+        )
 
-
-        xml_data = constants.SEND_SMS_XML.format()
         return self._post(api_url=constants.SEND_SMS_URI,
                           data=xml_data)
+
+
+if __name__ == '__main__':
+    res = Messages(username="Strativ", secret_key="94706778e903b1b0d1d793b6dc9f06709aa8c5bf").send_sms(
+        sender_title="Strativ BD LTD",
+        message_body="Hello from Strativ BD. Team Vacci Rocks!!",
+        recipients=["+8801722986553"],
+        group_id="1",
+        status_url="https://api2.dev.vacci.se",
+        trans_id=["123"]
+    )
+    print(res)
