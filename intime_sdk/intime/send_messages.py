@@ -20,7 +20,7 @@ class Messages(APIConnector):
          Allowed alphanumeric chars is aA-zZ, 0-9, space, .(dot), -(binding char), or +(plus).
          Only English characters are allowed.
         :param message_body: (String) Message text.
-         SMS message is allowed to contain a maximum of 160 characters. Multi-SMS is allowed to contain a maximum of
+         SMS is allowed to contain a maximum of 160 characters. Multi-SMS is allowed to contain a maximum of
          804 characters (6 SMS with 134 characters each).
         :param recipients: (List) Phone number of the recipients to receive the message. At least one recipient or group
          must be addressed.
@@ -82,15 +82,3 @@ class Messages(APIConnector):
 
         return self._post(api_url=constants.SEND_SMS_URI,
                           data=xml_data)
-
-
-if __name__ == '__main__':
-    res = Messages(username="Strativ", secret_key="94706778e903b1b0d1d793b6dc9f06709aa8c5bf").send_sms(
-        sender_title="Strativ BD LTD",
-        message_body="Hello from Strativ BD. Team Vacci Rocks!!",
-        recipients=["+8801722986553"],
-        group_id="1",
-        status_url="https://api2.dev.vacci.se",
-        trans_id=["123"]
-    )
-    print(res)

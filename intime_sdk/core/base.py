@@ -97,10 +97,14 @@ class APIConnector:
             data=data
         )
 
-        if api_response.status_code == 200 and ('ERROR' not in api_response.text or
-                                                'Name cannot begin' not in api_response.text):
+        if api_response.status_code == 200 and 'ERROR' not in api_response.text:
+            if 'Name cannot begin' not in api_response.text:
+                return {
+                    "status": True,
+                    "data": json.dumps(api_response.text)
+                }
             return {
-                "status": True,
+                "status": False,
                 "data": json.dumps(api_response.text)
             }
 
