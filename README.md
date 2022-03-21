@@ -3,41 +3,67 @@
 The objective of InTime SDK is to create, configure, and manage InTime services, such as Creating and Sending SMS's. 
 The SDK provides an object-oriented API as well as low-level access to InTime services.
 
-## Deployment
-
-This Project is deployed to pypi server.  
-
-Deployed using [Twine](https://twine.readthedocs.io/en/latest/)  
-To Deploy it to the server use the commands below.  
-
-```
-python setup.py sdist bdist_wheel
-```
-
-```
-twine upload -r local dist/* --skip-existing
-```
-
-To check the Package is Build correctly by this command before deploying
-
-```
-twine check dist/*
-```
-
-This will show you the available or previously built packages
-
-## Installation as a Package
-To Install this package into your project 
+## Installation 
 
 ```
 pip install intime-sdk
 ```
 
+InTime SDK supports Python 3.6+.
+
 ## Documentation
-Get the Package Documentation at  
-[click here](http://njnur.github.io)
 
-## Built With
+Instantiate the Messages class to send SMS
 
-* [Python](https://www.python.org/) - Language Used
-* [Requests](https://requests.readthedocs.io/en/stable/) - Library for HTTP requests
+```python
+from intime_sdk.intime.send_messages import Messages
+
+
+# initialize the Message class with required params
+Messages(username='your-username', secret_key='your-secret-key').send_sms(
+            sender_title="test-sender",
+            message_body="Hello from Intime!!",
+            recipients=["+123456789"],
+            group_id="1",
+
+)
+```
+### Parameter Definition  
+
+_**send_sms()**_ 
+
+```
+    :param sender_title: (String) Sender of the message. Use maximum 11 alphanumeric characters or 15 numeric chars.
+     Allowed alphanumeric chars is aA-zZ, 0-9, space, .(dot), -(binding char), or +(plus).
+     Only English characters are allowed.
+    
+    :param message_body: (String) Message text.
+     SMS is allowed to contain a maximum of 160 characters. Multi-SMS is allowed to contain a maximum of
+     804 characters (6 SMS with 134 characters each).
+    
+    :param recipients: (List) Phone number of the recipients to receive the message. At least one recipient or group
+     must be addressed.
+    
+    :param group_id: (String) The groups Identification number.
+    
+    :param is_flash_msg: (Boolean | Default: False) If this parameter is set to True, method will send a Flash
+     message (maximum 160 characters) and otherwise it will send a Normal message.
+    
+    :param is_multi_sms: (Boolean | Default: False) If this parameter is set to True, method will send send up to
+     six SMS or 804 characters and otherwise it will send a Normal message.
+    
+    :param send_date: (Optional; String | Default: None) Date/time for scheduled sending, If the message is to be
+     sent directly/right now, ignore this parameter. (Format: 2012-01-13T14:41:00)
+    
+    :param status_url: (Optional; String | Default: None) URL for the server to send message status callbacks.
+    
+    :param check_block_list: (Boolean | Default: False) If this parameter is set to True, method will check
+     the user's block list for group mailings.
+    
+    :param encrypt_msg: (Boolean | Default: False) Flag that indicates whether the message should be encrypted after
+     it's sent. Sent messages cannot be read in Messenger.
+    
+    :param trans_id: (Optional; String | Default: None) Value to send to the status url with the callback, this
+     could be a uniq id generated for each recipient and used in callback to link the status callback.
+     This is mandatory if status_url is used!    
+```
