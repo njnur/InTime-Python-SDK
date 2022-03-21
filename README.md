@@ -30,7 +30,7 @@ Messages(username='your-username', secret_key='your-secret-key').send_sms(
 ```
 ### Parameter Definition  
 
-_**send_sms()**_ 
+**send_sms()**
 
 ```
 :param sender_title: (String) Sender of the message. Use maximum 11 alphanumeric characters or 15 numeric chars.
