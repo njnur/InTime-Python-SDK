@@ -16,7 +16,7 @@ InTime SDK supports Python 3.6+.
 Instantiate the Messages class to send SMS
 
 ```python
-from intime_sdk.intime.send_messages import Messages
+from intime_sdk import Messages
 
 
 # initialize the Message class with required params
