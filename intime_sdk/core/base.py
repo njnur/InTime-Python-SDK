@@ -1,6 +1,11 @@
+import json
+
 import requests
 
 from typing import Optional, Dict
+
+from intime_sdk.core import constants
+from intime_sdk.core.error_map import in_time_error as _errors
 
 
 class APIConnector:
@@ -50,12 +55,16 @@ class APIConnector:
         :return: API response in dictionary format
         """
         api_response = requests.get(
-            url=api_url,
+            url="{base}/{version}/{api_uri}".format(
+                base=constants.INTIME_URL,
+                version=constants.VERSION,
+                api_uri=api_url
+            ),
             headers=self.__get_header(),
-            params=params
+            params=dict(self.__get_required_query_params().items(), **params)
         )
 
-        if api_response.status_code == 200:
+        if api_response.status_code == 200 and 'ERROR' not in api_response.text:
             return {
                 "status": True,
                 "data": api_response.json()
@@ -63,7 +72,7 @@ class APIConnector:
 
         return {
                 "status": False,
-                "message": str(api_response.status_code) + ' from API. ' + str(api_response.text),
+                "message": 'Error from InTime API. ' + _errors[str(api_response.text)]
                 }
 
     def _post(self, api_url: str, data: Optional[str] = None) -> dict:
@@ -78,18 +87,28 @@ class APIConnector:
         header = self.__get_header()
 
         api_response = requests.post(
-            url=api_url,
+            url="{base}/{version}/{api_uri}".format(
+                base=constants.INTIME_URL,
+                version=constants.VERSION,
+                api_uri=api_url
+            ),
             headers=header,
+            params=self.__get_required_query_params(),
             data=data
         )
 
-        if api_response.status_code == 200:
+        if api_response.status_code == 200 and 'ERROR' not in api_response.text:
+            if 'Name cannot begin' not in api_response.text:
+                return {
+                    "status": True,
+                    "data": json.dumps(api_response.text)
+                }
             return {
-                "status": True,
-                "data": api_response.json()
+                "status": False,
+                "data": json.dumps(api_response.text)
             }
 
         return {
                 "status": False,
-                "message": str(api_response.status_code) + ' from API. ' + str(api_response.text),
+                "message": 'Error from InTime API. ' + _errors[str(api_response.text)]
                 }

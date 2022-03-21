@@ -5,18 +5,16 @@ from setuptools import find_packages, setup
 
 
 # Package meta-data.
-NAME = 'crm-python-sdk'
-DESCRIPTION = 'Python SDK for CRM.'
-URL = 'https://bitbucket.org/miadvgbd/logics-package/'
-EMAIL = 'nur@miadvg.com'
-AUTHOR = 'Nurujjaman Nur'
+NAME = 'intime-sdk'
+DESCRIPTION = 'Python SDK for InTime API services.'
+URL = 'https://github.com/njnur/InTime-Python-SDK'
+EMAIL = 'mnjnurrumen@gmail.com'
+AUTHOR = 'MD Nurujjaman Nur'
 REQUIRES_PYTHON = '>=3.6.0'
-VERSION = '0.1.1'
+VERSION = '1.0.0'
 
 # Packages required
 REQUIRED = [
-    'httpx',
-    'cryptography',
     'requests'
 ]
 
@@ -64,6 +62,6 @@ setup(
         # Trove classifiers
         # Full list: https://pypi.python.org/pypi?%3Aaction=list_classifiers
         'License :: OSI Approved :: MIT License',
-        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.6',
     ]
 )
