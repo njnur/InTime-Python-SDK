@@ -11,7 +11,7 @@ URL = 'https://github.com/njnur/InTime-Python-SDK'
 EMAIL = 'mnjnurrumen@gmail.com'
 AUTHOR = 'MD Nurujjaman Nur'
 REQUIRES_PYTHON = '>=3.6.0'
-VERSION = '1.0.0'
+VERSION = '1.0.1'
 
 # Packages required
 REQUIRED = [
@@ -49,10 +49,11 @@ setup(
     author_email=EMAIL,
     python_requires=REQUIRES_PYTHON,
     url=URL,
+    long_description=long_description,
+    long_description_content_type='text/markdown',
     packages=find_packages(exclude=["docs", "source", "tests", "*.tests", "*.tests.*", "tests.*", ".pypirc"]),
     # For Single a module Package, use this instead of 'packages'
     # py_modules=['module_name'],
-
     # entry_points={},
 
     install_requires=REQUIRED,

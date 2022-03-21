@@ -11,7 +11,7 @@ __pycache__/
 .Python
 # Custom
 !docs/build/html/
-build/*
+build/
 develop-eggs/
 dist/
 downloads/
