@@ -127,3 +127,4 @@ docs/build/searchindex.js
 
 # Custom
 venv
+.DS_Store
