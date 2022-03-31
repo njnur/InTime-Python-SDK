@@ -81,4 +81,4 @@ class Messages(APIConnector):
         )
 
         return self._post(api_url=constants.SEND_SMS_URI,
-                          data=xml_data)
+                          data=xml_data.encode())

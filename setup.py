@@ -11,7 +11,7 @@ URL = 'https://github.com/njnur/InTime-Python-SDK'
 EMAIL = 'mnjnurrumen@gmail.com'
 AUTHOR = 'MD Nurujjaman Nur'
 REQUIRES_PYTHON = '>=3.6.0'
-VERSION = '1.0.1'
+VERSION = '1.0.2'
 
 # Packages required
 REQUIRED = [
